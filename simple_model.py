@@ -18,7 +18,7 @@ class Stock:
     def get_chart(self):
         charProvider = YahooStockProvider()
         return charProvider.get_chart(self._symbol)
-/.
+
 # a = ['a','2','dsadasda']
 # def testMethod(data = len(a)):
 #     print(data)
