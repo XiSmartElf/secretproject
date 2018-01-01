@@ -8,7 +8,7 @@ publicClient
     data
     && data.length > 0
     && data.map((v, i) => {
-        console.log("Product " + i + ": " + v.display_name)
+        console.log("Product " + (i + 1) + ": " + v.display_name)
     });
 })
 .catch(error => {
