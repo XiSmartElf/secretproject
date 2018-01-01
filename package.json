@@ -1,9 +1,9 @@
 {
-  "name": "gdax",
+  "name": "sp",
   "version": "1.0.0",
   "description": "",
   "dependencies": {
-    "gdax": "0.4.2"
+    "gdax": "github:coinbase/gdax-node"
   },
   "devDependencies": {},
   "repository": {
