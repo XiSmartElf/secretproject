@@ -15,12 +15,14 @@ const passphrase = obj.phrase;
 
 const authedClient = new Gdax.AuthenticatedClient(key, secret, passphrase, apiURI);
 
-authedClient.getAccounts((data)=>{
+const sellParams = {
+    'price': '13600.0', // USD
+    'size': '0.0001',  // BTC
+    'product_id': 'BTC-USD',
+};
+
+authedClient.sell(sellParams)
+.then((data)=>{
     console.log(data);
-});
+})
 
-
-// const accountID = '7d0f7d8e-dd34-4d9c-a846-06f431c381ba';
-// authedClient.getAccountHolds(accountID, callback);
-
-// console.log("123")
