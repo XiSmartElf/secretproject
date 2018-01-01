@@ -3,9 +3,15 @@ const publicClient = new Gdax.PublicClient();
 
 // // Get Product
 publicClient
-.getProductOrderBook("BTC-USD")
+.getProductOrderBook("BTC-USD", {level: 2})
 .then(data => {
-    console.log(data.asks.length);
+    data.asks.map(v => {
+        console.log('asks: ' + v);
+    });
+    data.bids.map(v => {
+        console.log('bids: ' + v);
+    });
+    console.log('sequence: ' + data.sequence);
 })
 .catch(error => {
     console.log("Get gdax product error: " + error);
