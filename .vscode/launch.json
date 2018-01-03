@@ -8,13 +8,17 @@
             "type": "node",
             "request": "launch",
             "name": "main",
-            "program": "${workspaceFolder}/node/main.js"
+            "program": "${workspaceFolder}/node/main.js",
+            "console": "integratedTerminal",
+            "diagnosticLogging": true
         },
         {
             "type": "node",
             "request": "launch",
             "name": "trade",
-            "program": "${workspaceFolder}/node/trade.js"
+            "program": "${workspaceFolder}/node/trade.js",
+            "console": "integratedTerminal",
+            "diagnosticLogging": true
         }
     ]
 }
