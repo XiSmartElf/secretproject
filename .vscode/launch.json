@@ -28,6 +28,25 @@
             "program": "${workspaceFolder}/node/crawl.js",
             "console": "integratedTerminal",
             "diagnosticLogging": true
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "profolio",
+            "program": "${workspaceFolder}/node/profolio.js",
+            "console": "integratedTerminal",
+            "diagnosticLogging": true
+        },
+        {
+            "name": "Python",
+            "type": "python",
+            "request": "launch",
+            "pythonPath":"C:/Users/superxi/AppData/Local/Programs/Python/Python36-32/python",
+            "name": "chart",
+            "program": "${workspaceFolder}/charting/profolio_snapshot.py",
+            "console": "integratedTerminal",
+            "diagnosticLogging": true,
+            "args":["6"]
         }
     ]
 }
