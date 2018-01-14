@@ -15,13 +15,14 @@ const passphrase = obj.phrase;
 
 const authedClient = new Gdax.AuthenticatedClient(key, secret, passphrase, apiURI);
 
-const sellParams = {
-    'price': '13600.0', // USD
-    'size': '0.0001',  // BTC
-    'product_id': 'BTC-USD',
+const params = {
+    'price': '227.96', // USD
+    'size': '7',  // BTC
+    'product_id': 'LTC-USD',
+    'post_only':true
 };
 
-authedClient.sell(sellParams)
+authedClient.buy(params)
 .then((data)=>{
     console.log(data);
 })
