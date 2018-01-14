@@ -3,7 +3,12 @@
   "version": "1.0.0",
   "description": "",
   "dependencies": {
-    "gdax": "github:coinbase/gdax-node"
+    "bluebird": "^3.5.1",
+    "fast-html-parser": "^1.0.1",
+    "gdax": "github:coinbase/gdax-node",
+    "node-binance-api": "^0.3.5",
+    "winston": "^2.2.0",
+    "winston-daily-rotate-file": "^1.3.0"
   },
   "devDependencies": {},
   "repository": {

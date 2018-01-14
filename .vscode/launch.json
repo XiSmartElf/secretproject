@@ -4,17 +4,49 @@
     // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
     "configurations": [
+
         {
             "type": "node",
             "request": "launch",
             "name": "main",
-            "program": "${workspaceFolder}/node/main.js"
+            "program": "${workspaceFolder}/node/main.js",
+            "console": "integratedTerminal",
+            "diagnosticLogging": true
         },
         {
             "type": "node",
             "request": "launch",
             "name": "trade",
-            "program": "${workspaceFolder}/node/trade.js"
+            "program": "${workspaceFolder}/node/trade.js",
+            "console": "integratedTerminal",
+            "diagnosticLogging": true
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "crawl",
+            "program": "${workspaceFolder}/node/crawl.js",
+            "console": "integratedTerminal",
+            "diagnosticLogging": true
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "profolio",
+            "program": "${workspaceFolder}/node/profolio.js",
+            "console": "integratedTerminal",
+            "diagnosticLogging": true
+        },
+        {
+            "name": "Python",
+            "type": "python",
+            "request": "launch",
+            "pythonPath":"C:/Users/superxi/AppData/Local/Programs/Python/Python36-32/python",
+            "name": "chart",
+            "program": "${workspaceFolder}/charting/profolio_snapshot.py",
+            "console": "integratedTerminal",
+            "diagnosticLogging": true,
+            "args":["13"]
         }
     ]
 }

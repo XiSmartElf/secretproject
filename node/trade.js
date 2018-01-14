@@ -1,13 +1,16 @@
 'use strict'
 const fs = require("fs");
 const Gdax = require('gdax');
-
+const publicClient = new Gdax.PublicClient('LTC-USD');
 const apiURI = 'https://api.gdax.com';
 const sandboxURI = 'https://api-public.sandbox.gdax.com';
 
-global._base = __dirname + '/../';
+global._base = __dirname + "";
+console.log(global._base);
+const content = fs.readFileSync(global._base + "/encript.json");
+const Provider = require(global._base + "main.js");
+const engine = new Provider();
 
-const content = fs.readFileSync(global._base+"/node/encript.json");
 const obj = JSON.parse(content);
 const key = obj.key;
 const secret = obj.value;
@@ -27,3 +30,17 @@ authedClient.buy(params)
     console.log(data);
 })
 
+
+var getPriceAsync = function() {
+    return publicClient.getProductTicker()
+        .then(data => {
+            return data;
+        })
+        .catch(error => {
+            // handle the error
+        });
+}
+
+while(true){
+
+}
