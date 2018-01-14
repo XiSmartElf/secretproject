@@ -52,7 +52,11 @@ var RealTimeDataProvider = function() {
     var priceCallbacks = {};
     var callbackId = 0;
     this.cancelAllCallbacks = function() {
-        priceCallbacks = {};
+        priceCallbacks = {};callbackId = 0;
+    }
+
+    this.setPriceTest = function(testPrice){
+        cachedPrice = {price:testPrice};
     }
 
     this.price = {
@@ -82,8 +86,9 @@ var RealTimeDataProvider = function() {
         cachedPrice = data;
 
         //optimize finding callbacks. tree?
-        for (let id in priceCallbacks) {
-            let callbackInfo = priceCallbacks[id];
+        logger.debug(Object.keys(priceCallbacks).length);
+        for (var id in priceCallbacks) {
+            var callbackInfo = priceCallbacks[id];
             if (callbackInfo.target < callbackInfo.old_price) { //expect price to go down to target
                 if (data.price <= callbackInfo.target) {
                     logger.verbose(`wake up at ${cachedPrice.price}!! for ${callbackInfo.target}, condition of ${callbackInfo.condition}, oldpirce: ${callbackInfo.old_price}`);
@@ -149,8 +154,8 @@ var sell = () => {
 }
 
 var PriceModel = function() {
-    var support = 253.51;
-    var resistence = 255.3;
+    var support = 240.8;
+    var resistence = 241.5;
     var curPrice;
 
     this.getSupport = function(){
@@ -173,10 +178,10 @@ var PriceModel = function() {
                 //and watch the go beyond resistence to buy
                 logger.warn("near sell point! current price:" + curPrice + " resistence at: " + resistence);
                 sell();
-                engine.price.registerPriceAlertCallBack(resistence, priceCallback);
+                engine.price.registerPriceAlertCallBack(resistence+0.01, priceCallback);
                 //todo:
                 //watch go near the support to buy
-                engine.price.registerPriceAlertCallBack(suppport * 1.001, priceCallback); //TODO: near 0.2 percent
+                engine.price.registerPriceAlertCallBack(support * 1.001, priceCallback); //TODO: near 0.2 percent
             } else if (curPrice > resistence) {
                 //the increased price is now above the resistence means:
                 //1. if we have shares not sold, we don't sell it.
@@ -188,10 +193,10 @@ var PriceModel = function() {
                 support = resistence * 0.999 //TODO: new support 0.01 
                     //update next resistence
                 resistence *= 1.003; //TODO: currently we try get 0.3 percent gain
-                logger.warn("new support: " + suport + " new resistence: " + resistence);
+                logger.warn("new support: " + support + " new resistence: " + resistence);
 
-                cancelAllCallbacks();
-                //watch the new suport,and new resistence 
+                engine.cancelAllCallbacks();
+                //watch the new support,and new resistence 
                 engine.price.registerPriceAlertCallBack(resistence * 0.999, priceCallback);
                 engine.price.registerPriceAlertCallBack(support * 1.001, priceCallback);
             }
@@ -201,7 +206,7 @@ var PriceModel = function() {
                 //near support, buy it.
                 buy();
                 //and watch the go below support to sell
-                engine.price.registerPriceAlertCallBack(support, priceCallback);
+                engine.price.registerPriceAlertCallBack(support-0.01, priceCallback);
                 //todo:
                 //watch go near the support to buy
                 engine.price.registerPriceAlertCallBack(resistence * 0.999, priceCallback); //TODO: near 0.2 percent
@@ -215,9 +220,9 @@ var PriceModel = function() {
                 resistence = support * 1.001 //TODO: new resistence 0.01
                     //update next resistence
                 support *= 0.997; //TODO: currently we try get 0.3 percent loss
-                logger.warn("new support: " + suport + " new resistence: " + resistence);
+                logger.warn("new support: " + support + " new resistence: " + resistence);
 
-                cancelAllCallbacks();
+                engine.cancelAllCallbacks();
                 //watch the new suport,and new resistence 
                 engine.price.registerPriceAlertCallBack(resistence * 0.999, priceCallback);
                 engine.price.registerPriceAlertCallBack(support * 1.001, priceCallback);
@@ -241,6 +246,7 @@ var work = () => {
         // sell();
         logger.debug( `${curPrice} support ${model.getSupport()}  wake at: ${model.getSupport()*1.001}  resist at ${model.getResistence()} wake at ${model.getResistence()*0.999} time: ${(new Date()).toString()}`);
         if (!registered) {
+            engine.setPriceTest(model.getSupport()*1.0011);
             engine.price.registerPriceAlertCallBack(model.getSupport()*1.001, priceCallback);
             registered = true;
         }

@@ -63,35 +63,51 @@ binanceClient.getWithoutAuth("/api/v1/ticker/allPrices").then((res) => {
     }
     return symbols;
 }).then((symbols) => {
-    return client.getWithoutAuth("/3").then((res) => {
+    return client.getWithoutAuth("/all/views/all/").then((res) => {
         var root = HTMLParser.parse(res.data);
         var rawCoinRows = root.querySelectorAll(".currency-name-container");
-        var tasks = [];
+       // var tasks = [];
+        var promise = new Promise((r)=>{r();});
+
         for (let rawCoin of rawCoinRows) {
             let coinUrl = rawCoin.attributes.href;
-            let task = client.getWithoutAuth(coinUrl).then((data) => {
-                var coinDom = HTMLParser.parse(data.data);
-                var rawCoinPage = coinDom.querySelector("#quote_price");
-                var symbol = coinDom.querySelector(".bold.hidden-xs").structuredText;
-                //var sc = coinDom.querySelector(".list-unstyled");
-                var c = symbol.substring(1, symbol.length-1);
-                if(!hasPrefixElem(symbols, c)) return;
-                var sourceCodeUrl = "";
-                if (data.data.includes("Source Code")) {
-                    let index = data.data.search("https://github");
-                    let i = index;
-                    while (data.data.charAt(i) != '"') {
-                        i++;
+            promise = promise.then(()=>{
+                return client.getWithoutAuth(coinUrl).then((data) => {
+                    var coinDom = HTMLParser.parse(data.data);
+                    var rawCoinPage = coinDom.querySelector("#quote_price");
+                    var symbol = coinDom.querySelector(".bold.hidden-xs").structuredText;
+                    //var sc = coinDom.querySelector(".list-unstyled");
+                    var c = symbol.substring(1, symbol.length-1);
+                    if(!hasPrefixElem(symbols, c)) return;
+                    var sourceCodeUrl = "";
+                    if (data.data.includes("Source Code")) {
+                        let index = data.data.search("https://github");
+                        let i = index;
+                        while (data.data.charAt(i) != '"') {
+                            i++;
+                        }
+                        var sourceCodeUrl = data.data.substring(index, i);
                     }
-                    var sourceCodeUrl = data.data.substring(index, i);
-                }
-
-                console.log(symbol + "," + rawCoinPage.attributes['data-usd'] + "  @ " + sourceCodeUrl);
+    
+                    console.log(symbol + "," + rawCoinPage.attributes['data-usd'] + "  @ " + sourceCodeUrl);
+                });
             });
-            tasks.push(task);
         }
 
-        return Promise.all(tasks);
+        // if(tasks.length>100){
+        //     let i = 0
+        //     var promise = new Promise((r)=>{r();});
+        //     while(i<tasks.length){
+        //         promise = promise.then(()=>{
+        //             return tasks[i];
+        //             //return Promise.all(tasks.slice(i, (i+1)<=tasks.length? (i+1):tasks.length))
+        //         });
+        //         i+=1;
+        //     }
+        //     return promise;
+        // }
+        //return Promise.all(tasks);
+        return promise;
     });
 });
 

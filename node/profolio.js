@@ -102,8 +102,18 @@ p.getProfolio().then((data) => {
         if (err) {
             return console.log(err);
         }
+        let print = {};
+        let smallCap = 0;
+        for(let asset in data.asset){
+            if(data.asset[asset].totalVal>3){
+                print[asset] = data.asset[asset];
+            }else{
+                smallCap+=data.asset[asset].totalVal;
+            }
+        }
 
-        console.log(data);
+        console.log(print);
+        console.log('small cap: $'+smallCap);
         var process = spawn('C:/Users/superxi/AppData/Local/Programs/Python/Python36-32/python',[global._base+"/../charting/profolio_snapshot.py", max+1 ]);
         process.stdout.on('data', function (data){
             console.log(data.toString());

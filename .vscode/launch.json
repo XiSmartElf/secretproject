@@ -46,7 +46,7 @@
             "program": "${workspaceFolder}/charting/profolio_snapshot.py",
             "console": "integratedTerminal",
             "diagnosticLogging": true,
-            "args":["6"]
+            "args":["13"]
         }
     ]
 }
